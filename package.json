@@ -1,0 +1,42 @@
+{
+  "name": "adam_galerie_salat",
+  "version": "1.0.0",
+  "description": "Jednoduchá webová galerie fotek seřazená chronologicky podle data pořízení (EXIF) s možností přidávat nové fotky přes Telegram bota.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "import-photos": "node scripts/import-local.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samanbeer/adam_galerie_salat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samanbeer/adam_galerie_salat/issues"
+  },
+  "homepage": "https://github.com/samanbeer/adam_galerie_salat#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.116.0",
+    "dotenv": "^17.4.2",
+    "exifr": "^7.1.3",
+    "lucide-react": "^1.46.0",
+    "next": "^14.2.35",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.3",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.9.3"
+  }
+}

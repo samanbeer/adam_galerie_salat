@@ -22,7 +22,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # OS / Editor
-.DS_Store
-*.pem
-.vscode/
-.idea/
+# Local photo directories (uploaded to Supabase Storage)
+galerie/
+public/galerie/
+*.tsbuildinfo
+
