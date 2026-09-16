@@ -6,6 +6,14 @@ import { extractTakenDate } from '@/lib/exif';
 import { Photo } from '@/types/photo';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+export const fetchCache = 'force-no-store';
+
+const noCacheHeaders = {
+  'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+  Pragma: 'no-cache',
+  Expires: '0',
+};
 
 export async function GET() {
   const hasSupabaseConfig =
@@ -22,10 +30,13 @@ export async function GET() {
         .order('taken_at', { ascending: false });
 
       if (!error && data && data.length > 0) {
-        return NextResponse.json({
-          source: 'supabase',
-          photos: data as Photo[],
-        });
+        return NextResponse.json(
+          {
+            source: 'supabase',
+            photos: data as Photo[],
+          },
+          { headers: noCacheHeaders }
+        );
       }
     } catch (e) {
       console.warn('Supabase dotaz selhal, zkusíme lokální fotky:', e);

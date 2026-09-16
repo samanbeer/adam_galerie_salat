@@ -25,7 +25,7 @@ export default function GalleryPage() {
   const fetchPhotos = async () => {
     setIsLoading(true);
     try {
-      const res = await fetch('/api/photos');
+      const res = await fetch('/api/photos', { cache: 'no-store' });
       const data = await res.json();
       if (data.photos) {
         setPhotos(data.photos);
