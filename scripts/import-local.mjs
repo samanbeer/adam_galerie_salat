@@ -2,6 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import WebSocket from 'ws';
+if (!globalThis.WebSocket) {
+  globalThis.WebSocket = WebSocket;
+}
 import { createClient } from '@supabase/supabase-js';
 import exifr from 'exifr';
 
