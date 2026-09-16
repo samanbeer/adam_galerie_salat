@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Adam Galerie Salát 🥗📸',
-  description: 'Chronologická galerie fotek podle data focení s podporou Telegram bota',
+  title: 'Adam Salát — Galerie',
+  description: 'Chronologická fotografická galerie seřazená podle data pořízení',
 };
 
 export default function RootLayout({
@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="cs" className="dark">
-      <body className="min-h-screen bg-slate-950 text-slate-100 antialiased selection:bg-emerald-500/30 selection:text-emerald-200">
+      <body className="min-h-screen bg-zinc-950 text-zinc-100 antialiased selection:bg-zinc-800 selection:text-white">
         {children}
       </body>
     </html>

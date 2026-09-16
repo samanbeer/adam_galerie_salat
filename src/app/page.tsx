@@ -6,7 +6,7 @@ import { GalleryHeader } from '@/components/GalleryHeader';
 import { PhotoGroupSection } from '@/components/PhotoGroupSection';
 import { LightboxModal } from '@/components/LightboxModal';
 import { TelegramInfoModal } from '@/components/TelegramInfoModal';
-import { Sparkles, ImageOff, RefreshCw } from 'lucide-react';
+import { ImageOff, X } from 'lucide-react';
 
 const CZECH_MONTHS = [
   'Leden', 'Únor', 'Březen', 'Duben', 'Květen', 'Červen',
@@ -91,7 +91,7 @@ export default function GalleryPage() {
     const maxDate = new Date(Math.max(...timestamps));
 
     const formatter = new Intl.DateTimeFormat('cs-CZ', {
-      month: 'short',
+      month: 'long',
       year: 'numeric',
     });
 
@@ -109,7 +109,7 @@ export default function GalleryPage() {
   };
 
   return (
-    <main className="min-h-screen pb-24 bg-slate-950 text-slate-100 selection:bg-emerald-500/20 selection:text-emerald-300">
+    <main className="min-h-screen pb-24 bg-zinc-950 text-zinc-100">
       {/* Top sticky header */}
       <GalleryHeader
         totalPhotos={photos.length}
@@ -119,60 +119,54 @@ export default function GalleryPage() {
         onOpenInfo={() => setIsInfoModalOpen(true)}
       />
 
-      {/* Notice Banner (e.g. Local preview notice) */}
+      {/* Optional Notice Banner */}
       {notice && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
-          <div className="flex items-center justify-between gap-3 p-3 bg-emerald-950/40 border border-emerald-500/30 rounded-xl text-emerald-300 text-xs sm:text-sm">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 shrink-0 text-emerald-400" />
-              <span>{notice}</span>
-            </div>
+          <div className="flex items-center justify-between gap-3 p-3 bg-zinc-900 border border-zinc-800 rounded-lg text-zinc-300 text-xs">
+            <span>{notice}</span>
             <button
               onClick={() => setNotice(null)}
-              className="text-slate-400 hover:text-white px-2 py-0.5 rounded text-xs"
+              className="text-zinc-500 hover:text-white p-1 transition"
             >
-              ✕
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
       )}
 
-      {/* Main Content Area */}
+      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8">
-        {/* Loading State */}
         {isLoading ? (
           <div className="space-y-8">
-            <div className="h-8 w-48 bg-slate-900 rounded-lg animate-pulse" />
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4">
-              {Array.from({ length: 12 }).map((_, i) => (
+            <div className="h-6 w-32 bg-zinc-900 rounded animate-pulse" />
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+              {Array.from({ length: 10 }).map((_, i) => (
                 <div
                   key={i}
-                  className="aspect-square bg-slate-900 rounded-2xl animate-pulse"
+                  className="aspect-square bg-zinc-900 rounded-lg animate-pulse"
                 />
               ))}
             </div>
           </div>
         ) : photos.length === 0 ? (
-          /* Empty State */
-          <div className="flex flex-col items-center justify-center py-24 text-center">
-            <div className="w-16 h-16 rounded-2xl bg-slate-900 flex items-center justify-center text-slate-500 mb-4 border border-slate-800">
-              <ImageOff className="w-8 h-8" />
+          <div className="flex flex-col items-center justify-center py-28 text-center">
+            <div className="w-12 h-12 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-600 mb-3">
+              <ImageOff className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-1">
-              Galerie je zatím prázdná
+            <h3 className="text-sm font-medium text-white mb-1">
+              Galerie je prázdná
             </h3>
-            <p className="text-sm text-slate-400 max-w-sm mb-6">
-              Pošli svou první fotku do Telegram bota nebo spusť import ze složky galerie.
+            <p className="text-xs text-zinc-500 max-w-sm mb-5">
+              Zašlete první fotografii přes Telegram bota.
             </p>
             <button
               onClick={() => setIsInfoModalOpen(true)}
-              className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-xl shadow-lg transition"
+              className="px-3.5 py-1.5 bg-white text-zinc-950 hover:bg-zinc-200 text-xs font-medium rounded-lg transition"
             >
-              Zjistit, jak přidat fotku
+              Jak nahrát fotografii
             </button>
           </div>
         ) : (
-          /* Grouped Photos Timeline */
           <div>
             {photoGroups.map((group) => (
               <PhotoGroupSection

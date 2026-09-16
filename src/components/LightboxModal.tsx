@@ -2,7 +2,7 @@
 
 import React, { useEffect, useCallback } from 'react';
 import { Photo } from '@/types/photo';
-import { X, ChevronLeft, ChevronRight, Calendar, Clock, Download, ExternalLink, Image as ImageIcon } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 
 interface LightboxModalProps {
   photos: Photo[];
@@ -57,12 +57,11 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
   const formattedTime = new Intl.DateTimeFormat('cs-CZ', {
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit',
   }).format(takenDate);
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col justify-between bg-black/95 backdrop-blur-md select-none transition-all duration-200"
+      className="fixed inset-0 z-50 flex flex-col justify-between bg-black/95 backdrop-blur-sm select-none transition-all duration-200"
       onClick={onClose}
     >
       {/* Top Header Bar */}
@@ -70,38 +69,38 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         className="flex items-center justify-between px-4 sm:px-6 py-4 bg-gradient-to-b from-black/80 to-transparent z-10"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-3 text-slate-300 text-sm">
-          <span className="font-semibold text-white">
+        <div className="flex items-center gap-3 text-zinc-400 text-xs font-mono">
+          <span className="text-zinc-200">
             {currentIndex + 1} / {photos.length}
           </span>
-          <span className="hidden sm:inline text-slate-500">•</span>
-          <span className="hidden sm:inline truncate max-w-xs text-slate-400">
+          <span className="hidden sm:inline text-zinc-600">/</span>
+          <span className="hidden sm:inline truncate max-w-xs text-zinc-500">
             {photo.filename}
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <a
             href={photo.url}
             target="_blank"
             rel="noopener noreferrer"
             download={photo.filename}
-            className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-full transition"
-            title="Otevřít v plném rozlišení"
+            className="p-2 text-zinc-400 hover:text-white hover:bg-white/10 rounded-md transition"
+            title="Otevřít originál v plném rozlišení"
           >
-            <ExternalLink className="w-5 h-5" />
+            <ExternalLink className="w-4 h-4" />
           </a>
           <button
             onClick={onClose}
-            className="p-2 text-slate-300 hover:text-white hover:bg-white/10 rounded-full transition"
-            title="Zavřít (Esc)"
+            className="p-2 text-zinc-400 hover:text-white hover:bg-white/10 rounded-md transition"
+            title="Zavřít"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5" />
           </button>
         </div>
       </div>
 
-      {/* Main Image Container */}
+      {/* Main Image Viewport */}
       <div
         className="relative flex-1 flex items-center justify-center p-2 sm:p-6 overflow-hidden"
         onClick={(e) => e.stopPropagation()}
@@ -110,19 +109,19 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         {currentIndex > 0 && (
           <button
             onClick={handlePrev}
-            className="absolute left-3 sm:left-6 z-20 p-3 bg-black/50 hover:bg-black/80 text-white rounded-full backdrop-blur transition-all hover:scale-110 shadow-lg border border-white/10"
-            title="Předchozí fotka (šipka vlevo)"
+            className="absolute left-3 sm:left-6 z-20 p-3 text-zinc-400 hover:text-white bg-black/40 hover:bg-black/80 rounded-full border border-zinc-800 backdrop-blur transition"
+            title="Předchozí"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
         )}
 
-        {/* Photo Image */}
+        {/* Photo */}
         <div className="relative max-w-full max-h-full flex items-center justify-center">
           <img
             src={photo.url}
             alt={photo.caption || photo.filename}
-            className="max-h-[78vh] max-w-[92vw] object-contain rounded-lg shadow-2xl transition-all"
+            className="max-h-[80vh] max-w-[92vw] object-contain rounded-md shadow-2xl transition-all"
           />
         </div>
 
@@ -130,40 +129,29 @@ export const LightboxModal: React.FC<LightboxModalProps> = ({
         {currentIndex < photos.length - 1 && (
           <button
             onClick={handleNext}
-            className="absolute right-3 sm:right-6 z-20 p-3 bg-black/50 hover:bg-black/80 text-white rounded-full backdrop-blur transition-all hover:scale-110 shadow-lg border border-white/10"
-            title="Další fotka (šipka vpravo)"
+            className="absolute right-3 sm:right-6 z-20 p-3 text-zinc-400 hover:text-white bg-black/40 hover:bg-black/80 rounded-full border border-zinc-800 backdrop-blur transition"
+            title="Další"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-5 h-5" />
           </button>
         )}
       </div>
 
-      {/* Bottom Info Bar */}
+      {/* Bottom Information */}
       <div
-        className="px-4 sm:px-8 py-4 bg-gradient-to-t from-black/90 via-black/70 to-transparent z-10 text-center"
+        className="px-4 sm:px-8 py-4 bg-gradient-to-t from-black/90 via-black/60 to-transparent z-10 text-center"
         onClick={(e) => e.stopPropagation()}
       >
         {photo.caption && (
-          <p className="text-white text-base sm:text-lg font-medium mb-2 drop-shadow">
+          <p className="text-zinc-100 text-sm sm:text-base font-normal mb-2 max-w-2xl mx-auto">
             {photo.caption}
           </p>
         )}
 
-        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm text-slate-300 font-medium">
-          <div className="inline-flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-full backdrop-blur">
-            <Calendar className="w-4 h-4 text-emerald-400" />
-            <span className="capitalize">{formattedDate}</span>
-          </div>
-
-          <div className="inline-flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-full backdrop-blur">
-            <Clock className="w-4 h-4 text-emerald-400" />
-            <span>{formattedTime}</span>
-          </div>
-
-          <div className="hidden sm:inline-flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-full backdrop-blur text-slate-400">
-            <ImageIcon className="w-4 h-4 text-emerald-400" />
-            <span>EXIF pořízení</span>
-          </div>
+        <div className="flex items-center justify-center gap-4 text-xs text-zinc-400 font-mono tracking-tight">
+          <span className="capitalize">{formattedDate}</span>
+          <span className="text-zinc-600">•</span>
+          <span>{formattedTime}</span>
         </div>
       </div>
     </div>

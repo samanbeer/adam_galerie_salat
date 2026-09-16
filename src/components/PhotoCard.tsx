@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Photo } from '@/types/photo';
-import { Calendar, Clock, Maximize2 } from 'lucide-react';
 
 interface PhotoCardProps {
   photo: Photo;
@@ -27,11 +26,11 @@ export const PhotoCard: React.FC<PhotoCardProps> = ({ photo, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="group relative cursor-pointer overflow-hidden rounded-2xl bg-slate-900 border border-slate-800/80 shadow-md hover:shadow-2xl hover:border-emerald-500/50 hover:scale-[1.015] transition-all duration-300 aspect-square"
+      className="group relative cursor-pointer overflow-hidden rounded-lg bg-zinc-900 border border-zinc-800/60 shadow-sm hover:border-zinc-700 transition-all duration-300 aspect-[4/5] sm:aspect-square"
     >
-      {/* Skeleton / Placeholder */}
+      {/* Skeleton loader */}
       {!isLoaded && (
-        <div className="absolute inset-0 bg-gradient-to-tr from-slate-900 via-slate-800 to-slate-900 animate-pulse" />
+        <div className="absolute inset-0 bg-zinc-900 animate-pulse" />
       )}
 
       {/* Image */}
@@ -40,35 +39,22 @@ export const PhotoCard: React.FC<PhotoCardProps> = ({ photo, onClick }) => {
         alt={photo.caption || photo.filename}
         loading="lazy"
         onLoad={() => setIsLoaded(true)}
-        className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${
+        className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
       />
 
-      {/* Gradient Vignette overlay on hover */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-between p-3.5">
-        <div className="flex justify-end">
-          <span className="p-2 bg-slate-900/80 backdrop-blur-md rounded-full text-slate-200 shadow-md transform translate-y-2 group-hover:translate-y-0 transition-transform">
-            <Maximize2 className="w-4 h-4" />
-          </span>
-        </div>
+      {/* Clean gradient vignette on hover */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-end p-3 sm:p-4">
+        {photo.caption && (
+          <p className="text-xs sm:text-sm font-medium text-white line-clamp-2 mb-1.5 drop-shadow-sm">
+            {photo.caption}
+          </p>
+        )}
 
-        <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform">
-          {photo.caption && (
-            <p className="text-sm font-medium text-white line-clamp-1 mb-1 drop-shadow">
-              {photo.caption}
-            </p>
-          )}
-          <div className="flex items-center gap-3 text-xs text-slate-300 font-medium">
-            <span className="inline-flex items-center gap-1 bg-slate-900/80 backdrop-blur px-2 py-0.5 rounded-md">
-              <Calendar className="w-3 h-3 text-emerald-400" />
-              {formattedDate}
-            </span>
-            <span className="inline-flex items-center gap-1 bg-slate-900/80 backdrop-blur px-2 py-0.5 rounded-md">
-              <Clock className="w-3 h-3 text-emerald-400" />
-              {formattedTime}
-            </span>
-          </div>
+        <div className="flex items-center justify-between text-[11px] text-zinc-300 font-mono tracking-tight">
+          <span>{formattedDate}</span>
+          <span className="text-zinc-400">{formattedTime}</span>
         </div>
       </div>
     </div>

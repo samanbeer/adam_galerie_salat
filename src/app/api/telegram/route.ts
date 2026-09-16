@@ -23,7 +23,7 @@ async function sendTelegramMessage(chatId: number | string, text: string, token:
 export async function GET() {
   return NextResponse.json({
     status: 'ok',
-    message: 'Adam Galerie Salát Telegram Webhook is active 🚀',
+    message: 'Adam Salat Gallery Webhook is active',
   });
 }
 
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
 
   const chatId = message.chat.id;
   const userId = message.from?.id;
-  const userFirstName = message.from?.first_name || 'Uživateli';
+  const userFirstName = message.from?.first_name || 'Uživatel';
 
   // 1. Oprávnění (Whitelist uživatelů)
   const allowedUserIdsEnv = process.env.ALLOWED_TELEGRAM_USER_IDS;
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
     if (allowedIds.length > 0 && !allowedIds.includes(String(userId))) {
       await sendTelegramMessage(
         chatId,
-        `⛔ Nemáš oprávnění nahrávat fotky do galerie.\n\nTvoje Telegram ID je: \`${userId}\`\nPožádej správce o přidání tohoto ID do povolených uživatelů.`,
+        `Přístup odepřen. Nemáte oprávnění nahrávat fotografie do galerie.\n\nVaše Telegram ID je: \`${userId}\`\nPožádejte správce o přidání tohoto ID do povolených uživatelů.`,
         token
       );
       return NextResponse.json({ ok: true });
@@ -68,7 +68,7 @@ export async function POST(req: NextRequest) {
   if (text === '/start' || text === '/help') {
     await sendTelegramMessage(
       chatId,
-      `Ahoj ${userFirstName}! 👋\n\nTohle je bot pro nahrávání fotek do *Adam Galerie Salát* 🥗📸\n\n🆔 Tvoje Telegram ID: \`${userId}\`\n\n📸 *Jak přidat fotku:*\n1. Pošli fotku sem do chatu.\n2. 💡 *Tip:* Pro zachování původního EXIF data pořízení a plné kvality fotku pošli jako *Soubor / Dokument* (bez komprese).\n3. Bot fotku automaticky zařadí do galerie podle data focení!`,
+      `Dobrý den, ${userFirstName}.\n\nTento bot slouží k nahrávání fotografií do galerie *Adam Salát*.\n\nVaše Telegram ID: \`${userId}\`\n\nPostup pro nahrání:\n1. Zašlete fotografii sem do chatu.\n2. Doporučení: Pro zachování maximální kvality a původního data pořízení odešlete soubor jako dokument (bez komprese).\n3. Fotografie bude zařazena do galerie podle data pořízení.`,
       token
     );
     return NextResponse.json({ ok: true });
@@ -93,16 +93,15 @@ export async function POST(req: NextRequest) {
       originalFilename = doc.file_name || originalFilename;
       mimeType = doc.mime_type || mimeType;
     } else {
-      await sendTelegramMessage(chatId, '⚠️ Tento soubor nevypadá jako obrázek. Pošli prosím JPEG, PNG nebo WebP.', token);
+      await sendTelegramMessage(chatId, 'Tento formát souboru není podporován. Zašlete prosím JPEG, PNG nebo WebP.', token);
       return NextResponse.json({ ok: true });
     }
   }
 
   if (!fileId) {
-    // Zpráva nebyla fotka ani podporovaný soubor
     await sendTelegramMessage(
       chatId,
-      '📸 Pošli mi fotku nebo obrázek jako dokument, a já ji vložím do galerie!',
+      'Zašlete fotografii nebo obrázek jako dokument pro zařazení do galerie.',
       token
     );
     return NextResponse.json({ ok: true });
@@ -174,8 +173,8 @@ export async function POST(req: NextRequest) {
 
     await sendTelegramMessage(
       chatId,
-      `✅ *Fotka byla úspěšně přidána do galerie!*\n\n📅 Datum focení: *${formattedDate}*\n📁 Soubor: \`${originalFilename}\`${
-        caption ? `\n💬 Popisek: _${caption}_` : ''
+      `*Fotografie byla úspěšně přidána do galerie.*\n\nDatum pořízení: *${formattedDate}*\nSoubor: \`${originalFilename}\`${
+        caption ? `\nPopis: _${caption}_` : ''
       }`,
       token
     );
@@ -185,7 +184,7 @@ export async function POST(req: NextRequest) {
     console.error('Chyba zpracování fotky z Telegramu:', error);
     await sendTelegramMessage(
       chatId,
-      `❌ Nastala chyba při ukládání fotky:\n\`${error?.message || 'Neznámá chyba'}\``,
+      `Došlo k chybě při ukládání fotografie:\n\`${error?.message || 'Neznámá chyba'}\``,
       token
     );
     return NextResponse.json({ error: error?.message }, { status: 500 });

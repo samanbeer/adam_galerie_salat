@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { ArrowDownUp, Info, Send, Camera, Sparkles } from 'lucide-react';
+import { ArrowDownNarrowWide, ArrowUpWideNarrow, Plus } from 'lucide-react';
 
 interface GalleryHeaderProps {
   totalPhotos: number;
@@ -19,64 +19,69 @@ export const GalleryHeader: React.FC<GalleryHeaderProps> = ({
   onOpenInfo,
 }) => {
   return (
-    <header className="sticky top-0 z-30 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/60 shadow-sm">
+    <header className="sticky top-0 z-30 bg-zinc-950/80 backdrop-blur-xl border-b border-zinc-900/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          {/* Logo & Title */}
-          <div className="flex items-center gap-3.5">
-            <div className="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-500 shadow-lg shadow-emerald-500/20 text-2xl ring-2 ring-emerald-400/20">
-              🥗
-              <span className="absolute -bottom-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-slate-900 text-xs text-emerald-400 border border-slate-800">
-                <Camera className="w-3 h-3" />
-              </span>
+          {/* Logo / Brand */}
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 font-mono text-sm font-semibold">
+              AS
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white">
-                  Adam Galerie Salát
+              <div className="flex items-baseline gap-2">
+                <h1 className="text-lg sm:text-xl font-semibold tracking-tight text-white">
+                  Adam Salát
                 </h1>
-                <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-                  <Sparkles className="w-2.5 h-2.5" /> EXIF Timeline
+                <span className="text-xs uppercase tracking-widest text-zinc-500 font-medium">
+                  Galerie
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-400 font-normal">
+              <p className="text-xs text-zinc-400 font-normal">
                 {totalPhotos > 0 ? (
                   <>
-                    <span className="text-emerald-400 font-semibold">{totalPhotos}</span>{' '}
-                    {totalPhotos === 1 ? 'fotka' : totalPhotos < 5 ? 'fotky' : 'fotek'}
+                    <span className="text-zinc-200 font-medium">{totalPhotos}</span>{' '}
+                    {totalPhotos === 1 ? 'fotografie' : totalPhotos < 5 ? 'fotografie' : 'fotografií'}
                     {dateRange && (
-                      <span className="ml-1 text-slate-500">
-                        • {dateRange.start} – {dateRange.end}
+                      <span className="ml-1 text-zinc-500">
+                        / {dateRange.start} – {dateRange.end}
                       </span>
                     )}
                   </>
                 ) : (
-                  'Zatím žádné fotky v galerii'
+                  'Žádné fotografie'
                 )}
               </p>
             </div>
           </div>
 
-          {/* Action Buttons */}
+          {/* Controls */}
           <div className="flex items-center gap-2.5 self-end sm:self-auto">
-            {/* Sort Toggle Button */}
+            {/* Sort Toggle */}
             <button
               onClick={onToggleSort}
-              className="inline-flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-medium rounded-xl bg-slate-900/90 text-slate-200 hover:text-white hover:bg-slate-800 border border-slate-800 hover:border-slate-700 transition shadow-sm"
-              title="Změnit řazení fotek"
+              className="inline-flex items-center gap-2 px-3 py-1.5 text-xs font-medium rounded-lg bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white border border-zinc-800 transition"
+              title="Změnit pořadí řazení"
             >
-              <ArrowDownUp className="w-4 h-4 text-emerald-400" />
-              <span>{sortAscending ? 'Od nejstarších ⬆️' : 'Od nejnovějších ⬇️'}</span>
+              {sortAscending ? (
+                <>
+                  <ArrowUpWideNarrow className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>Od nejstarších</span>
+                </>
+              ) : (
+                <>
+                  <ArrowDownNarrowWide className="w-3.5 h-3.5 text-zinc-400" />
+                  <span>Od nejnovějších</span>
+                </>
+              )}
             </button>
 
-            {/* Telegram Info Button */}
+            {/* Telegram Info / Add photo */}
             <button
               onClick={onOpenInfo}
-              className="inline-flex items-center gap-2 px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-md shadow-emerald-600/20 transition hover:scale-[1.02] active:scale-[0.98]"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-white text-zinc-950 hover:bg-zinc-200 transition shadow-sm"
             >
-              <Send className="w-4 h-4" />
-              <span className="hidden sm:inline">Přidat přes Telegram</span>
-              <span className="sm:hidden">Telegram</span>
+              <Plus className="w-3.5 h-3.5" />
+              <span>Přidat fotografii</span>
             </button>
           </div>
         </div>
