@@ -86,13 +86,24 @@ export const TelegramInfoModal: React.FC<TelegramInfoModalProps> = ({
           </div>
         </div>
 
-        {/* Action button */}
-        <button
-          onClick={onClose}
-          className="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium text-sm transition"
-        >
-          Rozumím
-        </button>
+        {/* Action buttons */}
+        <div className="flex flex-col sm:flex-row gap-2.5">
+          <a
+            href="https://t.me/adamekLLLLbot"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold text-sm transition shadow-lg shadow-emerald-600/20"
+          >
+            <Send className="w-4 h-4" />
+            Otevřít @adamekLLLLbot na Telegramu
+          </a>
+          <button
+            onClick={onClose}
+            className="py-2.5 px-5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-sm transition"
+          >
+            Zavřít
+          </button>
+        </div>
       </div>
     </div>
   );
